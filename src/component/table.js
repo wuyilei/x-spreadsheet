@@ -81,6 +81,12 @@ export function renderCell(draw, data, rindex, cindex, yoffset = 0) {
     }
     const font = Object.assign({}, style.font);
     font.size = getFontSizePxByPt(font.size);
+
+    // wuyl++
+    const v = data.validations.get(rindex, cindex);
+    if (v && (v.validator.type === 'list' || v.validator.type === 'date')) {
+      cellText = 'xxx';
+    }
     // console.log('style:', style);
     draw.text(cellText, dbox, {
       align: style.align,
