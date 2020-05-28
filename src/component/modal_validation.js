@@ -20,10 +20,12 @@ export default class ModalValidation extends Modal {
       `${t('dataValidation.range')}:`,
       fieldLabelWidth,
     );
+    // range
     const rf = new FormField(
       new FormInput('120px', 'E3 or E3:F12'),
       { required: true, pattern: /^([A-Z]{1,2}[1-9]\d*)(:[A-Z]{1,2}[1-9]\d*)?$/ },
     );
+    // criteria
     const cf = new FormField(
       new FormSelect('list',
         ['list', 'number', 'date', 'phone', 'email'],
@@ -34,7 +36,6 @@ export default class ModalValidation extends Modal {
       `${t('dataValidation.criteria')}:`,
       fieldLabelWidth,
     );
-
     // operator
     const of = new FormField(
       new FormSelect('be',
@@ -53,11 +54,12 @@ export default class ModalValidation extends Modal {
       new FormInput('70px', '100'),
       { required: true, type: 'number' },
     ).hide();
-    // value
+    // string value (list, separated by ',')
     const svf = new FormField(
       new FormInput('120px', 'a,b,c'),
       { required: true },
     );
+    // value
     const vf = new FormField(
       new FormInput('70px', '10'),
       { required: true, type: 'number' },
@@ -176,7 +178,7 @@ export default class ModalValidation extends Modal {
       const mode = this.mf.val();
       const ref = this.rf.val();
       const type = this.cf.val();
-      const operator = this.of.val();
+      let operator = this.of.val();
       let value = this.svf.val();
       if (type === 'number' || type === 'date') {
         if (operator === 'be' || operator === 'nbe') {
@@ -184,6 +186,8 @@ export default class ModalValidation extends Modal {
         } else {
           value = this.vf.val();
         }
+      } else if (type === 'list' || type === 'email' || type === 'phone') {
+        operator = undefined;
       }
       // console.log(mode, ref, type, operator, value);
       this.change('save',

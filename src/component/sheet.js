@@ -648,6 +648,8 @@ function sheetInitEvents() {
   // modal validation
   modalValidation.change = (action, ...args) => {
     if (action === 'save') {
+      // wuyl++ 先删除原有的val，再添加新的
+      this.data.removeValidation();
       this.data.addValidation(...args);
     } else {
       this.data.removeValidation();
@@ -689,6 +691,7 @@ function sheetInitEvents() {
   });
 
   // for selector
+  // wuyl++
   bind(window, 'keydown', (evt) => {
     if (!this.focusing) return;
     const keyCode = evt.keyCode || evt.which;
@@ -731,6 +734,16 @@ function sheetInitEvents() {
           // ctrl + v
           // => paste
           // evt.preventDefault();
+          break;
+        case 35:
+          // ctrl + home 跳到列尾
+          selectorMove.call(this, shiftKey, 'col-last');
+          evt.preventDefault();
+          break;
+        case 36:
+          // ctrl + home 跳到列首
+          selectorMove.call(this, shiftKey, 'col-first');
+          evt.preventDefault();
           break;
         case 37:
           // ctrl + left
@@ -780,6 +793,16 @@ function sheetInitEvents() {
         case 27: // esc
           contextMenu.hide();
           clearClipboard.call(this);
+          break;
+        case 35:
+          // end 跳到行尾
+          selectorMove.call(this, shiftKey, 'row-last');
+          evt.preventDefault();
+          break;
+        case 36:
+          // home 跳到行首
+          selectorMove.call(this, shiftKey, 'row-first');
+          evt.preventDefault();
           break;
         case 37: // left
           selectorMove.call(this, shiftKey, 'left');
