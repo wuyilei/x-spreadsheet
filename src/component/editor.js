@@ -46,13 +46,25 @@ function insertText({ target }, itxt) {
 }
 
 function keydownEventHandler(evt) {
+  // 13 回车
+  // 9 tab
+  // 27 esc
   const { keyCode, altKey } = evt;
-  if (keyCode !== 13 && keyCode !== 9) evt.stopPropagation();
+  if (keyCode !== 13 && keyCode !== 9 && keyCode !== 27) {
+    evt.stopPropagation();
+  }
   if (keyCode === 13 && altKey) {
     insertText.call(this, evt, '\n');
     evt.stopPropagation();
   }
-  if (keyCode === 13 && !altKey) evt.preventDefault();
+  if (keyCode === 13 && !altKey) {
+    evt.preventDefault();
+  }
+  // wuyl++ 2020-05-28 esc按键功能
+  if (keyCode === 27) {
+    console.log('esc键');
+    this.clear();
+  }
 }
 
 function inputEventHandler(evt) {
