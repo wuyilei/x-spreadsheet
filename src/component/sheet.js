@@ -352,6 +352,7 @@ function toolbarChangePaintformatPaste() {
   }
 }
 
+// wuyl++ 鼠标左键点击
 function overlayerMousedown(evt) {
   // console.log(':::::overlayer.mousedown:', evt.detail, evt.button, evt.buttons, evt.shiftKey);
   // console.log('evt.target.className:', evt.target.className);
@@ -426,7 +427,9 @@ function editorSetOffset() {
 }
 
 function editorSet() {
-  const { editor, data } = this;
+  const { selector, editor, data } = this;
+  const [ri, ci] = selector.indexes;
+  console.log('ri:', ri, ', ci:', ci);
   if (data.settings.mode === 'read') return;
   editorSetOffset.call(this);
   editor.setCell(data.getSelectedCell(), data.getSelectedValidator());
@@ -588,6 +591,7 @@ function sheetInitEvents() {
         }
         evt.stopPropagation();
       } else if (evt.detail === 2) {
+        // wuyl++ 鼠标左键双击，编辑单元格
         editorSet.call(this);
       } else {
         overlayerMousedown.call(this, evt);
